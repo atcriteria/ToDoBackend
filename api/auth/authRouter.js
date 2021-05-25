@@ -19,13 +19,16 @@ router.get('/', (req, res) => {
 router.post('/register', (req, res) => {
     const account = new Account({
         username: req.body.username,
-        password: req.body.password
+        password: req.body.password,
+        email: req.body.email
     });
 
     if(accountValidation(account)){
-        const rounds = process.env.BCRYPT_ROUNDS || 8;
+        const rounds = process.env.BCRYPT_ROUNDS || 10;
         const hash = bcrypt.hashSync(account.password, rounds);
-        account.password = hash
+        const hashemail = bcrypt.hashSync(account.email, rounds);
+        account.password = hash;
+        account.email = hashemail;
     }
 
     account.save()
