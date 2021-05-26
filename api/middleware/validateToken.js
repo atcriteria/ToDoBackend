@@ -9,14 +9,13 @@ module.exports = (req, res, next) => {
     if (token) {
         jwt.verify(token, jwtSecret, (err, decoded) => {
             if (err) {
-                return res.status(401).json('Please supply a valid token')
+                res.status(401).json('Please supply a valid token')
             } else {
                 req.decodedJwt = decoded;
                 next();
             }
         })
     } else {
-        return res.status(401).json("You must have a token to do that");
+        res.status(401).json("You must have a token to do that");
     }
-    next();
 }
